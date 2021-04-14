@@ -1,5 +1,5 @@
 # CSPC 323 Compilers
-# Assignment 2|Due: April 18, 2020 11:59PM
+# Assignment 2|Due: April 18, 2021 11:59PM
 The purpose of the assignment is to make a syntax analyzer
 # Group Members
 
