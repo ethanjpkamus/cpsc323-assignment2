@@ -31,8 +31,8 @@ bool isStatement()
 {
 	cout << "<Statement> -> <Declarative>" << endl;
 	//return isDeclarative();
-} 
-//<Declarative> -> <Type> <ID> 
+}
+//<Declarative> -> <Type> <ID>
 bool isDeclarative()
 {
 	cout << "<Declarative> -> <Type> <ID>" << endl;
@@ -49,7 +49,7 @@ bool isType()
  * Arithmetic Production Rules
  */
 
-//<Expression> -> <Expression> + <Term> | <Expression> - <Term> | <Term> 
+//<Expression> -> <Expression> + <Term> | <Expression> - <Term> | <Term>
 bool isExpression()
 {
 	cout << "<Expression> -> <Expression> + <Term> | <Expression> - <Term> | <Term>" << endl;
@@ -85,3 +85,24 @@ bool isAssign()
 	cout << "<Assign> -> <ID> = <Expression>;" << endl;
 }
 
+/*
+  Declarative Statements
+ */
+
+//<Statement> -> <Declarative>
+bool decStatement()
+{
+    cout <<
+}
+
+//<Declarative> -> <Type> <ID>
+bool declarative()
+{
+    cout <<
+}
+
+//<Type> -> bool | float | int
+bool Type()
+{
+    cout <<
+}
