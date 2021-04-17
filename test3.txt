@@ -1,10 +1,6 @@
-!test case 3!
+! this is comment for this sample test code for the assignment operator, the ; is optional!
 
-int func(int i) {
-    int _sum = 0;
-    for(int j = 0; j < i; j+1){
-        _sum + j;
-    }
-    ?
-    return _sum;
-}.
+x=a + b;
+z=c+ d;
+a=e-f;
+b=g*n;

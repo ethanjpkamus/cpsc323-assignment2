@@ -40,10 +40,9 @@ int main(int argc, char* argv[])
 	{
 		stuff = lexer(s);
 
-		for(int i = 0; i < stuff.size(); ++i)
-		{
-			cout << setw(10) << stuff[i].token  << " | " << stuff[i].lexeme << endl;
-		}
+		parser(stuff);
+
+		
 	}
 
 	inputfile.close();
