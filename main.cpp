@@ -4,6 +4,7 @@
 // #include <vector>
 #include "lexer.cpp"
 #include "parser.cpp"
+#include "syntax.cpp"
 
 using std::vector;
 using std::cout;
@@ -30,7 +31,7 @@ int main(int argc, char* argv[])
 
 	//open input file and add it to ifstream object
 	inputfile.open(filename);
-	
+
 	if(!inputfile.is_open())
 	{
 		cout << "not swag" << endl;
@@ -42,7 +43,7 @@ int main(int argc, char* argv[])
 
 		parser(stuff);
 
-		
+
 	}
 
 	inputfile.close();
