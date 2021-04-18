@@ -1,7 +1,14 @@
 ! this is comment for this sample test code for arithmetic expressions!
 
-a + b
-c+d
-e-f
-g*n
-s/f
+!valid!
+(a + b) - c
+(c/d)
+(e * f)
+(g*n)
+(x+y)*z
+(h*i)+j
+(a-b)
+
+!invalid!
+(a + + b)
+(- a )

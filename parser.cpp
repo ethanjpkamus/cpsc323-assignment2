@@ -9,8 +9,10 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::setw;
+using std::isdigit;
+using std::stoi;
 
-string terminals[] ={"+", "-", "*", "/", ";"};
+// string terminals[] ={"+", "-", "*", "/", ";"};
 int look = 0;
 
 /*
@@ -31,13 +33,42 @@ int look = 0;
  * F -> (E) | id
  */
 
-//E
-bool expression(vector<sig_item> &v)
+void parser(vector<sig_item>);
+bool E(vector<sig_item> &v);
+bool EP(vector<sig_item> &v);
+bool T(vector<sig_item> &v);
+bool TP(vector<sig_item> &v);
+bool F(vector<sig_item> &v);
+void advance(int);
+
+void parser(vector<sig_item> v)
 {
-	result = false;
-	if(term(v))
+	vector<sig_item> v2 = v;
+
+	if(v2.size() != 0){	//check for empty vector
+		v2.push_back(sig_item("END", "$"));
+		cout << "[ ";
+		for(int i = 0; i < v2.size(); ++i)
+		{
+			cout << "(" << v2[i].lexeme << ", " << v2[i].token << "), ";
+		}
+		cout << "]" <<endl;
+
+		cout << (E(v2)? "valid" : "invalid") << endl;
+		// cout << endl;
+	}
+	look = 0;
+	cout << endl;
+}
+
+//E
+bool E(vector<sig_item> &v)
+{
+	// cout << "E" << endl;
+	bool result = false;
+	if(T(v))
 	{
-		if(expression_prime(v))
+		if(EP(v))
 		{
 			cout << "E  -> TE'" << endl;
 			result = true;
@@ -46,34 +77,40 @@ bool expression(vector<sig_item> &v)
 	return result;
 }
 //Q
-bool expression_prime(vector<sig_item> &v)
+bool EP(vector<sig_item> &v)
 {
-	result = false;
+	// cout << "EP" << endl;
+	bool result = false;
+	advance(v.size());
 	string s = v[look].lexeme;
-	if(s == "+")
+	if(s == "+" || s == "-")
 	{
-		if(term(v))
+		if(T(v))
 		{
-			if(expression_prime(v))
+			if(EP(v))
 			{
 				cout << "E' -> +TE'" << endl;
 				result = true;
 			}
 		}
-	} else if (s == ")" || s == "$") {
-		--look;
-		cout << "E' -> eps" << endl;
-		result = true;
+	} else {
+		if (s == ")" || s == "$") 
+		{
+			--look;
+			cout << "E' -> eps" << endl;
+			result = true;
+		}
 	}
 	return result;
 }
 //T
-bool term(vector<sig_item> &v)
+bool T(vector<sig_item> &v)
 {
-	result = false;
-	if(factor(v))
+	// cout << "T" << endl;
+	bool result = false;
+	if(F(v))
 	{
-		if(term_prime(v))
+		if(TP(v))
 		{
 			cout << "T  -> FT'" << endl;
 			result = true;
@@ -82,56 +119,60 @@ bool term(vector<sig_item> &v)
 	return result;
 }
 //R
-bool term_prime(vector<sig_item> &v)
+bool TP(vector<sig_item> &v)
 {
-	result = false;
+	// cout << "TP" << endl;
+	bool result = false;
+	advance(v.size());
 	string s = v[look].lexeme;
-	if(s == "*")
+	if(s == "*" || s == "/")
 	{
-		if(factor(v))
+		if(F(v))
 		{
-			if (term_prime(v))
+			if (TP(v))
 			{
-				cout << "T' -> *FT'" endl;
+				cout << "T' -> *FT'" << endl;
 				result = true;
 			}
 		}
-	} else if (s == "+" || s == ")" || s == "$") {
-		cout << "T' -> eps" endl;
-		--look;
-		result = true;
+	} else {
+		if (s == "+" || s == "-" || s == ")" || s == "$") 
+		{
+			cout << "T' -> eps" << endl;
+			--look;
+			result = true;
+		}
 	}
+	return result;
 }
 
-bool factor(vector<sig_item> &v)
+bool F(vector<sig_item> &v)
 {
-	result = false;
-	if(v[look].token == "IDENTIFIER"/*token is identifier*/)
+	// cout << "F" << endl;
+	bool result = false;
+	advance(v.size());
+	if(v[look].token == "IDENTIFIER")
 	{
 		cout << "F -> id" << endl;
 		result = true;
-	} else if(v[look].lexeme == "("/* lexeme is "(" */){
-		if(expression(v))
+		// advance(v.size());
+	} else if(v[look].lexeme == "("/* lexeme is "(" */) {
+		if(E(v))
 		{
-			if(v[look].lexeme == "("/*lexeme is ")" */)
-			cout << "F -> (E)"
+			if(v[look].lexeme == ")"/*lexeme is ")" */)
+			cout << "F -> (E)";
 		}
 	}
+	return result;
 }
 
-void parser(vector<sig_item> v)
+void advance(int size)
 {
-	//print out token and lexeme here
-
-	vector<sig_item> v2 = v;
-
-	if(v2.size() != 0){	//check for empty vector
-		v2.push_back(sig_item("END", "$"));
-
-		//start parse
-		expression(v2);
+	// cout << "adv" << endl;
+	if (look < size)
+	{
+		look++;
+	} else {
+		cout << "size reached" << endl;
 	}
-	//print out associated rules here
-	//validate?
 }
-

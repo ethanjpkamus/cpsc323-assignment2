@@ -39,6 +39,7 @@ int main(int argc, char* argv[])
 	while (getline(inputfile,s))
 	{
 		stuff = lexer(s);
+		cout << "parser called" << endl;
 		parser(stuff);
 	}
 
