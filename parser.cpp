@@ -92,17 +92,17 @@ bool isAssign()
 //<Statement> -> <Declarative>
 bool decStatement()
 {
-    cout <<
+    cout << "<Statement> -> <Declarative>" << endl;
 }
 
 //<Declarative> -> <Type> <ID>
 bool declarative()
 {
-    cout <<
+    cout << "<Declarative> -> <Type> <ID><Declarative> -> <Type> <ID>" << endl;
 }
 
 //<Type> -> bool | float | int
 bool Type()
 {
-    cout <<
+    cout << "<Type> -> bool | float | int" << endl;
 }
