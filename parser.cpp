@@ -88,7 +88,7 @@ bool isAssign()
 
 /*
   Declarative Statements
- */
+
 
 //<Statement> -> <Declarative>
 bool decStatement()
@@ -109,7 +109,7 @@ bool Type()
 }
 
 
-
+*/
 
 
 
