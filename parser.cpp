@@ -353,3 +353,273 @@ void SyntaxAnalyzer::generateToken(string word, char c)
 
 
 }
+
+bool SyntaxAnalyzer::checkIdentifier(string word)
+{
+	//If string starts from letters a, b,c..z or A, B, ..z
+	if((word.at(0)>=65 && word.at(0)<=90) || (word.at(0)>=97 && word.at(0)<=122) )
+	{
+		//Checking for string such assasd!# which is not accepted
+		for(int i=1; i<word.length(); i++)
+		{
+
+			if(word.at(i) >= 48 && word.at(i) <= 57 || word.at(i) >= 65 && word.at(i) <= 90 || word.at(i) >= 97 && word.at(i) <= 122 )
+			{
+
+			}
+			else
+			{
+				return false;
+			}
+		}
+		return true;
+	}
+
+	return false;
+}
+
+
+int SyntaxAnalyzer::getSize()
+{
+	return count;
+}
+
+bool SyntaxAnalyzer::start(string returnType)
+{
+	if(DataType(returnType) ==  true)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+int SyntaxAnalyzer::funcDeclaration(string array[])
+{
+	int flag=0;
+
+	//Checking keyword for return type
+	if(start(array[0]) == true)
+	{
+
+		//Next Phase to check Function Name
+		if(checkIdentifier( array[1]) == true)
+		{
+
+			if(array[2] =="(" && openP == 1)
+			{
+
+
+				for(int i=3; i<count-2; i=i+3)
+				{
+					if(DataType(array[i]) == true)
+					{
+						 if(checkIdentifier( array[i+1]) == true)
+						{
+							if(array[i+2] == "," || i + 2 == count-2)
+							{
+								flag=1;
+							}
+							else
+							{
+								nameOfError="Error : There is Error on/before/After of , ";
+								flag=0;
+								break;
+							}
+						}
+						else
+						{
+							nameOfError="Error : There is Error on/before/After of Parameter Variable name ";
+							flag=0;
+							break;
+						}
+
+					}
+					else
+					{
+						nameOfError="Error : There is Error  on/before/After of Parameter Data Type ";
+						flag=0;
+						break;
+					}
+
+				}
+
+				if( flag == 1 )
+				{
+
+					if( array[count-2] ==")" && closeP == 1 )
+					{
+						if( array[count-1] ==";" && semicolon == 1 )
+						{
+							return 1;
+						}
+						else
+						{
+							//Error
+							nameOfError="Error : There is Error on/before/After of semicolon ; ";
+							return 0;
+						}
+
+					}
+					else
+					{
+						//Error
+						nameOfError="Error : There is Error on/before/After of closing parenthesis ";
+						return 0;
+					}
+				}
+				else
+				{
+					//Error
+					nameOfError="Error : There is Error  before ) closing paranthesis ";
+					return 0;
+				}
+			}
+			else
+			{
+			//Error
+			nameOfError="Error : There is Error on/before/After of Open Parenthesis ( ";
+			return 0;
+			}
+		}
+		else
+		{
+		//Error
+			nameOfError="Error : There is Error on/before/After of Function Name ";
+			return 0;
+		}
+
+	}
+	else
+	{
+		//Error
+		nameOfError="Error : There is Error on/before/After of Return Type ";
+		return 0;
+	}
+
+
+}
+
+bool SyntaxAnalyzer::DataType(string returnType)
+{
+	if(returnType == "numbers" || returnType == "decimals" || returnType == "words")
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
+string SyntaxAnalyzer::getError()
+{
+	openP=0;
+	closeP=0;
+	semicolon=0;
+	count=0;
+	openB=0;
+	closeB=0;
+	return nameOfError;
+}
+
+void SyntaxAnalyzer::check()
+{
+	cout<<"OpenP:  "<<openP<<endl;
+	cout<<"CloseP:"<<closeP<<endl;
+	cout<<"Semicolon: "<<semicolon<<endl;
+	cout<<"count: "<<count<<endl;
+
+}
+
+int SyntaxAnalyzer::funcCalling(string array[])
+{
+	int flag=0;
+
+
+
+		//Next Phase to check Function Name
+		if(checkIdentifier( array[0]) == true)
+		{
+
+			if(array[1] =="(" && openP == 1)
+			{
+
+
+				for(int i=2; i<count-2; i=i+2)
+				{
+
+					 if(checkIdentifier( array[i]) == true)
+					{
+						if(array[i+1] == "," || i + 1 == count-2)
+						{
+							flag=1;
+						}
+						else
+						{
+							nameOfError="Error : There is Error on/before/After of , ";
+							flag=0;
+							break;
+						}
+					}
+					else
+					{
+						nameOfError="Error : There is Error on/before/After of Parameter Variable name ";
+						flag=0;
+						break;
+					}
+
+
+
+				}
+
+				if( flag == 1 )
+				{
+
+					if( array[count-2] ==")" && closeP == 1 )
+					{
+						if( array[count-1] ==";" && semicolon == 1 )
+						{
+							return 1;
+						}
+						else
+						{
+							//Error
+							nameOfError="Error : There is Error on/before/After of semicolon ; ";
+							return 0;
+						}
+
+					}
+					else
+					{
+						//Error
+						nameOfError="Error : There is Error on/before/After of closing parenthesis ";
+						return 0;
+					}
+				}
+				else
+				{
+					//Error
+					nameOfError="Error : There is Error  before ) closing paranthesis ";
+					return 0;
+				}
+			}
+			else
+			{
+			//Error
+			nameOfError="Error : There is Error on/before/After of Open Parenthesis ( ";
+			return 0;
+			}
+		}
+		else
+		{
+		//Error
+			nameOfError="Error : There is Error on/before/After of Function Name ";
+			return 0;
+		}
+
+
+
+}
