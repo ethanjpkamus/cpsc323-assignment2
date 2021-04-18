@@ -321,31 +321,26 @@ void SyntaxAnalyzer::generateToken(string word, char c)
 	{
 		case'K':
 		keyW++;
-		//cout<<"< Keyword#"<<keyW<<", "<<word<<" >\n"<<endl;
 
 		break;
 
 		case'I':
 		id++;
-		//cout<<"< Idenfier#"<<id<<", "<<word<<" >\n"<<endl;
 
 		break;
 
 		case'O':
 		sym++;
-		//cout<<"< Symbol#"<<sym<<", "<<word<<" >\n"<<endl;
 
 		break;
 
 		case'S':
 		str++;
-		//cout<<"< String#"<<str<<", "<<word<<" >\n"<<endl;
 
 		break;
 
 		case'L':
 		lit++;
-		//cout<<"< Literals#"<<lit<<", "<<word<<" >\n"<<endl;
 
 		break;
 
@@ -356,10 +351,9 @@ void SyntaxAnalyzer::generateToken(string word, char c)
 
 bool SyntaxAnalyzer::checkIdentifier(string word)
 {
-	//If string starts from letters a, b,c..z or A, B, ..z
 	if((word.at(0)>=65 && word.at(0)<=90) || (word.at(0)>=97 && word.at(0)<=122) )
 	{
-		//Checking for string such assasd!# which is not accepted
+
 		for(int i=1; i<word.length(); i++)
 		{
 
@@ -400,17 +394,14 @@ int SyntaxAnalyzer::funcDeclaration(string array[])
 {
 	int flag=0;
 
-	//Checking keyword for return type
 	if(start(array[0]) == true)
 	{
 
-		//Next Phase to check Function Name
 		if(checkIdentifier( array[1]) == true)
 		{
 
 			if(array[2] =="(" && openP == 1)
 			{
-
 
 				for(int i=3; i<count-2; i=i+3)
 				{
@@ -499,7 +490,6 @@ int SyntaxAnalyzer::funcDeclaration(string array[])
 		return 0;
 	}
 
-
 }
 
 bool SyntaxAnalyzer::DataType(string returnType)
@@ -538,15 +528,11 @@ int SyntaxAnalyzer::funcCalling(string array[])
 {
 	int flag=0;
 
-
-
-		//Next Phase to check Function Name
 		if(checkIdentifier( array[0]) == true)
 		{
 
 			if(array[1] =="(" && openP == 1)
 			{
-
 
 				for(int i=2; i<count-2; i=i+2)
 				{
@@ -570,8 +556,6 @@ int SyntaxAnalyzer::funcCalling(string array[])
 						flag=0;
 						break;
 					}
-
-
 
 				}
 
@@ -619,7 +603,5 @@ int SyntaxAnalyzer::funcCalling(string array[])
 			nameOfError="Error : There is Error on/before/After of Function Name ";
 			return 0;
 		}
-
-
 
 }
