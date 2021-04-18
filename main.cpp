@@ -26,23 +26,20 @@ int main(int argc, char* argv[])
 	char t;
 	ifstream inputfile;
 	vector<sig_item> stuff;
-	// vector<string> stuff;
+	
 
 	//open input file and add it to ifstream object
 	inputfile.open(filename);
 	
 	if(!inputfile.is_open())
 	{
-		cout << "not swag" << endl;
+		cout << "file cannot be opened" << endl;
 		return EXIT_FAILURE;
 	}
 	while (getline(inputfile,s))
 	{
 		stuff = lexer(s);
-
 		parser(stuff);
-
-		
 	}
 
 	inputfile.close();
