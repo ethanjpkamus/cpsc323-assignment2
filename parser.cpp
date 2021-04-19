@@ -9,8 +9,6 @@ using std::string;
 using std::cout;
 using std::endl;
 using std::setw;
-using std::isdigit;
-using std::stoi;
 
 // string terminals[] ={"+", "-", "*", "/", ";"};
 int look = 0;
@@ -46,19 +44,34 @@ void parser(vector<sig_item> v)
 	vector<sig_item> v2 = v;
 
 	if(v2.size() != 0){	//check for empty vector
+		string in = "";
+		string err = "";
 		v2.push_back(sig_item("END", "$"));
-		cout << "[ ";
-		for(int i = 0; i < v2.size(); ++i)
+		cout << "input string: ";
+		for(int i = 0; i < v2.size()-1; ++i)
 		{
-			cout << "(" << v2[i].lexeme << ", " << v2[i].token << "), ";
+			cout << v2[i].lexeme;
+			in += v2[i].lexeme;
 		}
-		cout << "]" <<endl;
-
-		cout << (E(v2)? "valid" : "invalid") << endl;
+		cout << endl;
+		if (E(v2))
+		{
+			cout << "Valid Input\n" << endl;
+		} else {
+			cout << "Invalid Input\n" << endl;
+			cout << in << endl;
+			for(int i = 0; i < look; ++i)
+			{
+				err += " ";
+			}
+			err += "^ --error";
+			cout << err << endl;
+			cout << endl;
+		}
 		// cout << endl;
 	}
 	look = 0;
-	cout << endl;
+	// cout << endl;
 }
 
 //E
@@ -70,7 +83,7 @@ bool E(vector<sig_item> &v)
 	{
 		if(EP(v))
 		{
-			cout << "E  -> TE'" << endl;
+			cout << "<Expression>  -> <Term> <ExpresisonPrime>" << endl;
 			result = true;
 		}
 	}
@@ -89,7 +102,7 @@ bool EP(vector<sig_item> &v)
 		{
 			if(EP(v))
 			{
-				cout << "E' -> +TE'" << endl;
+				cout << (s == "+"? "<ExpressionPrime> -> + <Term> <ExpressionPrime>" : "<ExpressionPrime> -> - <Term> <ExpressionPrime>") << endl;
 				result = true;
 			}
 		}
@@ -97,7 +110,7 @@ bool EP(vector<sig_item> &v)
 		if (s == ")" || s == "$") 
 		{
 			--look;
-			cout << "E' -> eps" << endl;
+			cout << "<ExpressionPrime> -> Ɛ" << endl;
 			result = true;
 		}
 	}
@@ -112,7 +125,7 @@ bool T(vector<sig_item> &v)
 	{
 		if(TP(v))
 		{
-			cout << "T  -> FT'" << endl;
+			cout << "<Term>  -> <Factor> <TermPrime>" << endl;
 			result = true;
 		}
 	}
@@ -131,14 +144,14 @@ bool TP(vector<sig_item> &v)
 		{
 			if (TP(v))
 			{
-				cout << "T' -> *FT'" << endl;
+				cout << (s == "*" ? "<TermPrime> -> * <Factor> <TermPrime>" : "<TermPrime> -> / <Factor> <TermPrime>") << endl;
 				result = true;
 			}
 		}
 	} else {
 		if (s == "+" || s == "-" || s == ")" || s == "$") 
 		{
-			cout << "T' -> eps" << endl;
+			cout << "<TermPrime> -> Ɛ" << endl;
 			--look;
 			result = true;
 		}
@@ -153,14 +166,15 @@ bool F(vector<sig_item> &v)
 	advance(v.size());
 	if(v[look].token == "IDENTIFIER")
 	{
-		cout << "F -> id" << endl;
+		cout << "<Factor> -> id" << endl;
 		result = true;
 		// advance(v.size());
 	} else if(v[look].lexeme == "("/* lexeme is "(" */) {
+		advance(v.size());
 		if(E(v))
 		{
 			if(v[look].lexeme == ")"/*lexeme is ")" */)
-			cout << "F -> (E)";
+			cout << "<Factor> -> (<Expression>)";
 		}
 	}
 	return result;
